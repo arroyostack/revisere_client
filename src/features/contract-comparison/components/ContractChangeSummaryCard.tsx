@@ -3,7 +3,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RemoveIcon from '@mui/icons-material/Remove';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { ContractChangeItem, ChangeDirection, ChangeSignificance } from '../../types/contract-analysis-api.types';
+import { ContractChangeItem, ChangeDirection, ChangeSignificance } from '../../../types/contract-analysis-api.types';
 
 interface ChangeItemCardProps {
   change: ContractChangeItem;
@@ -76,3 +76,5 @@ export function ChangeItemCard({ change }: ChangeItemCardProps): JSX.Element {
     </Box>
   );
 }
+
+export { ChangeItemCard as ContractChangeSummaryCard };

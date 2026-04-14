@@ -1,11 +1,11 @@
 import { Chip } from '@mui/material';
-import { RiskSeverity } from '../../types/contract-analysis-api.types';
+import { ContractRiskSeverity } from '../types/contractAnalysis.types';
 
 interface RiskSeverityBadgeProps {
-  severity: RiskSeverity;
+  severity: ContractRiskSeverity;
 }
 
-const severityConfig: Record<RiskSeverity, { label: string; color: 'error' | 'warning' | 'success' }> = {
+const severityConfig: Record<ContractRiskSeverity, { label: string; color: 'error' | 'warning' | 'success' }> = {
   high: { label: 'HIGH', color: 'error' },
   medium: { label: 'MEDIUM', color: 'warning' },
   low: { label: 'LOW', color: 'success' },

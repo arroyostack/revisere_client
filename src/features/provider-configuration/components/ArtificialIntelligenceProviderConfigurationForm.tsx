@@ -1,13 +1,13 @@
 import { useState, FormEvent } from 'react';
-import { TextField, Button, MenuItem, Box, Typography } from '@mui/material';
-import { useProviderConfigurationStore } from '../../store/provider-configuration.store';
+import { TextField, Button, Box, Typography } from '@mui/material';
+import { useProviderConfigurationStore } from '../state/providerConfigurationState.store';
 import {
   PROVIDER_DISPLAY_NAMES,
   DEFAULT_MODEL_PLACEHOLDERS,
   SupportedProvider,
-} from '../../types/provider-configuration.types';
-import { SectionCard } from '../ui/SectionCard';
-import { providerConfigurationFormStyles } from './ProviderConfigurationForm.styles';
+} from '../types/providerConfiguration.types';
+import { SectionCard } from '../../../shared/ui/SectionCard/SectionCard';
+import { providerConfigurationFormStyles } from './ArtificialIntelligenceProviderConfigurationForm.styles';
 
 const PROVIDER_OPTIONS: SupportedProvider[] = [
   'openai',
@@ -36,7 +36,7 @@ export function ProviderConfigurationForm(): JSX.Element {
   };
 
   return (
-    <SectionCard title="AI Provider Configuration">
+    <SectionCard sectionTitle="AI Provider Configuration">
       <Box
         component="form"
         onSubmit={handleSubmit}

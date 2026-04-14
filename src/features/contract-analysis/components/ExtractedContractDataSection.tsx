@@ -1,6 +1,6 @@
 import { Box, Typography, List, ListItem, ListItemText, Chip, Grid } from '@mui/material';
-import { ExtractedContractData } from '../../types/contract-analysis-api.types';
-import { SectionCard } from '../ui/SectionCard';
+import { ExtractedContractData } from '../types/contractAnalysis.types';
+import { SectionCard } from '../../../shared/ui/SectionCard/SectionCard';
 
 interface ExtractedDataSectionProps {
   extractedData: ExtractedContractData;
@@ -11,14 +11,14 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <SectionCard title="Contract Title">
+          <SectionCard sectionTitle="Contract Title">
             <Typography variant="body1" color="text.primary" sx={{ fontFamily: 'monospace' }}>
               {extractedData.contractTitle}
             </Typography>
           </SectionCard>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <SectionCard title="Contract Type">
+          <SectionCard sectionTitle="Contract Type">
             <Typography variant="body1" color="text.primary">
               {extractedData.contractType}
             </Typography>
@@ -26,7 +26,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
         </Grid>
       </Grid>
 
-      <SectionCard title="Parties">
+      <SectionCard sectionTitle="Parties">
         <List dense>
           {extractedData.parties.map((party, index) => (
             <ListItem key={index} sx={{ px: 0 }}>
@@ -53,7 +53,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
       <Grid container spacing={2}>
         {extractedData.effectiveDate && (
           <Grid item xs={12} sm={6}>
-            <SectionCard title="Effective Date">
+            <SectionCard sectionTitle="Effective Date">
               <Typography variant="body1" color="text.primary" sx={{ fontFamily: 'monospace' }}>
                 {extractedData.effectiveDate}
               </Typography>
@@ -62,7 +62,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
         )}
         {extractedData.expirationDate && (
           <Grid item xs={12} sm={6}>
-            <SectionCard title="Expiration Date">
+            <SectionCard sectionTitle="Expiration Date">
               <Typography variant="body1" color="text.primary" sx={{ fontFamily: 'monospace' }}>
                 {extractedData.expirationDate}
               </Typography>
@@ -71,7 +71,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
         )}
         {extractedData.governingLaw && (
           <Grid item xs={12} sm={6}>
-            <SectionCard title="Governing Law">
+            <SectionCard sectionTitle="Governing Law">
               <Typography variant="body1" color="text.primary">
                 {extractedData.governingLaw}
               </Typography>
@@ -80,7 +80,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
         )}
         {extractedData.disputeResolutionMethod && (
           <Grid item xs={12} sm={6}>
-            <SectionCard title="Dispute Resolution">
+            <SectionCard sectionTitle="Dispute Resolution">
               <Typography variant="body1" color="text.primary">
                 {extractedData.disputeResolutionMethod}
               </Typography>
@@ -90,7 +90,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
       </Grid>
 
       {extractedData.paymentTerms && (
-        <SectionCard title="Payment Terms">
+        <SectionCard sectionTitle="Payment Terms">
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             {extractedData.paymentTerms.paymentAmount && (
               <Typography variant="body1" color="text.primary">
@@ -112,7 +112,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
         </SectionCard>
       )}
 
-      <SectionCard title="Termination Conditions">
+      <SectionCard sectionTitle="Termination Conditions">
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {extractedData.terminationConditions.noticePeriodInDays && (
             <Typography variant="body2" color="text.secondary">
@@ -143,7 +143,7 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
         </Box>
       </SectionCard>
 
-      <SectionCard title="Key Obligations">
+      <SectionCard sectionTitle="Key Obligations">
         <List dense>
           {extractedData.keyObligations.map((obligation, index) => (
             <ListItem key={index} sx={{ px: 0 }}>
@@ -174,17 +174,17 @@ export function ExtractedDataSection({ extractedData }: ExtractedDataSectionProp
       <Grid container spacing={2}>
         {extractedData.confidentialityClauseExists && (
           <Grid item xs={12} sm={4}>
-            <Chip label="Confidentiality Clause" color="success" fullWidth />
+            <Chip label="Confidentiality Clause" color="success" />
           </Grid>
         )}
         {extractedData.nonCompeteClauseExists && (
           <Grid item xs={12} sm={4}>
-            <Chip label="Non-Compete Clause" color="success" fullWidth />
+            <Chip label="Non-Compete Clause" color="success" />
           </Grid>
         )}
         {extractedData.intellectualPropertyClauseExists && (
           <Grid item xs={12} sm={4}>
-            <Chip label="IP Clause" color="success" fullWidth />
+            <Chip label="IP Clause" color="success" />
           </Grid>
         )}
       </Grid>

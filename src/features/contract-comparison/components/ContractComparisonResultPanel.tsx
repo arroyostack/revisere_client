@@ -50,10 +50,10 @@ export function ContractComparisonResultPanel({
       </SectionCard>
 
       <FavorableContractVersionIndicator
-        favorableContractVersion={
+        favorableVersion={
           contractComparisonResult.whichVersionIsFavorable
         }
-        favorabilityExplanation={
+        explanation={
           contractComparisonResult.favorabilityExplanation
         }
       />
@@ -71,7 +71,7 @@ export function ContractComparisonResultPanel({
               (contractChangeItem, contractChangeIndex) => (
                 <ContractChangeSummaryCard
                   key={contractChangeIndex}
-                  contractChangeItem={contractChangeItem}
+                  change={contractChangeItem}
                 />
               ),
             )}

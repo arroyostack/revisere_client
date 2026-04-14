@@ -1,8 +1,17 @@
-import { useCallback } from "react";
-import { contractComparisonApiClient } from "../api/contractComparisonApiClient";
-import { useContractComparisonStateStore } from "../state/contractComparisonState.store";
+import { useCallback } from 'react';
+import { contractComparisonApiClient } from '../api/contractComparisonApiClient';
+import { useContractComparisonStateStore } from '../state/contractComparisonState.store';
+import { ApplicationError } from '../../../shared/errors/AppError';
+import { ErrorService } from '../../../shared/errors/errorService';
 
-export function useContractComparisonWorkflow() {
+interface ContractComparisonWorkflowReturn {
+  submitContractsForComparison: (originalContractFile: File, revisedContractFile: File) => Promise<void>;
+  isContractComparisonInProgress: boolean;
+  contractComparisonErrorMessage: string | null;
+  contractComparisonResult: import('../types/contractComparison.types').ContractComparisonResult | null;
+}
+
+export function useContractComparisonWorkflow(): ContractComparisonWorkflowReturn {
   const contractComparisonResult = useContractComparisonStateStore(
     (state) => state.contractComparisonResult,
   );
@@ -31,18 +40,26 @@ export function useContractComparisonWorkflow() {
       setContractComparisonErrorMessage(null);
 
       try {
-        const contractComparisonResult =
+        const contractComparisonResultData =
           await contractComparisonApiClient.compareContractFiles(
             originalContractFile,
             revisedContractFile,
           );
-        setContractComparisonResult(contractComparisonResult);
+        setContractComparisonResult(contractComparisonResultData);
       } catch (error) {
-        const contractComparisonErrorMessage =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
-        setContractComparisonErrorMessage(contractComparisonErrorMessage);
+        let applicationError: ApplicationError;
+
+        if (error instanceof ApplicationError) {
+          applicationError = error;
+        } else {
+          applicationError = ErrorService.createFromFetchError(
+            error,
+            'Failed to compare contracts',
+          );
+        }
+
+        ErrorService.logErrorToConsole(applicationError);
+        setContractComparisonErrorMessage(applicationError.userFacingMessage);
       } finally {
         setContractComparisonInProgress(false);
       }

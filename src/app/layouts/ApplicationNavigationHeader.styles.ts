@@ -18,7 +18,6 @@ export const applicationNavigationHeaderStyles: {
     justifyContent: "space-between",
   },
   applicationBrandMark: {
-    fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif',
     fontWeight: 700,
     fontSize: "1.25rem",
     color: "text.primary",
@@ -34,15 +33,19 @@ export const applicationNavigationHeaderStyles: {
   },
   navigationLink: {
     textDecoration: "none",
-    fontWeight: 500,
+    fontWeight: 600,
     fontSize: "0.875rem",
     color: "text.secondary",
-    transition: "color 0.2s",
+    paddingBottom: "4px",
+    borderBottom: "2px solid transparent",
+    transition: "none !important",
     "&:hover": {
       color: "primary.main",
+      borderBottom: "2px solid rgba(43, 108, 176, 0.4)",
     },
   },
   activeNavigationLink: {
     color: "primary.main",
+    borderBottom: "2px solid #1a365d",
   },
 };
