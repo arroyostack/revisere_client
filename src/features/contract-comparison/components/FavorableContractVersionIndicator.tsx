@@ -3,7 +3,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BalanceIcon from '@mui/icons-material/Balance';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { FavorableVersion } from '../../types/contract-analysis-api.types';
+import { FavorableVersion } from '../../../types/contract-analysis-api.types';
 
 interface FavorabilityIndicatorProps {
   favorableVersion: FavorableVersion;
@@ -21,12 +21,12 @@ const versionConfig: Record<FavorableVersion, { label: string; icon: React.React
     icon: <ArrowForwardIcon />,
     color: '#f97316',
   },
-  equally_favorable: {
+  roughly_equal: {
     label: 'Equally Favorable',
     icon: <BalanceIcon />,
     color: '#22c55e',
   },
-  unclear: {
+  depends_on_your_role: {
     label: 'Unclear',
     icon: <HelpOutlineIcon />,
     color: '#64748b',
@@ -62,5 +62,4 @@ export function FavorabilityIndicator({ favorableVersion, explanation }: Favorab
   );
 }
 
-export { FavorabilityIndicator as ContractChangeSummaryCard };
 export { FavorabilityIndicator as FavorableContractVersionIndicator };

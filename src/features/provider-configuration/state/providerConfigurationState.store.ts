@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ProviderConfiguration } from '../types/provider-configuration.types';
+import { ProviderConfiguration } from '../types/providerConfiguration.types';
 
 interface ProviderConfigurationStore {
   savedConfiguration: ProviderConfiguration | null;

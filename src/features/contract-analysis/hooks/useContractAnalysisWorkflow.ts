@@ -2,7 +2,14 @@ import { useCallback } from "react";
 import { contractAnalysisApiClient } from "../api/contractAnalysisApiClient";
 import { useContractAnalysisStateStore } from "../state/contractAnalysisState.store";
 
-export function useContractAnalysisWorkflow() {
+interface ContractAnalysisWorkflowReturn {
+  submitContractForAnalysis: (contractFileToAnalyze: File) => Promise<void>;
+  isContractAnalysisInProgress: boolean;
+  contractAnalysisErrorMessage: string | null;
+  contractAnalysisResponse: import("../types/contractAnalysis.types").ContractAnalysisResponse | null;
+}
+
+export function useContractAnalysisWorkflow(): ContractAnalysisWorkflowReturn {
   const contractAnalysisResponse = useContractAnalysisStateStore(
     (state) => state.contractAnalysisResponse,
   );

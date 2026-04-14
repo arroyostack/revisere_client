@@ -123,46 +123,40 @@ export function DualContractFileDropZone({
       ? "First Contract (Original)"
       : "Second Contract (Revised)";
 
-    const getDropZoneStyles = () => {
-      const composedDropZoneStyles = [dualContractFileDropZoneStyles.dropZone];
+    const getDropZoneStyles = (): Record<string, unknown> => {
+      const baseStyles = { ...dualContractFileDropZoneStyles.dropZone };
 
       if (isDropZoneHighlighted) {
-        composedDropZoneStyles.push(
-          dualContractFileDropZoneStyles.dropZoneDragOver,
-        );
+        Object.assign(baseStyles, dualContractFileDropZoneStyles.dropZoneDragOver);
       }
 
       if (selectedContractFile) {
-        composedDropZoneStyles.push(
-          dualContractFileDropZoneStyles.dropZoneSelected,
-        );
+        Object.assign(baseStyles, dualContractFileDropZoneStyles.dropZoneSelected);
       }
 
       if (disabled) {
-        composedDropZoneStyles.push(
-          dualContractFileDropZoneStyles.dropZoneDisabled,
-        );
+        Object.assign(baseStyles, dualContractFileDropZoneStyles.dropZoneDisabled);
       }
 
-      return composedDropZoneStyles;
+      return baseStyles;
     };
 
     return (
       <Box
         onClick={() => handleOpenFilePicker(isOriginalContractDropZone)}
-        onDragOver={(dragEvent) =>
+        onDragOver={(dragEvent: DragEvent<HTMLDivElement>) =>
           handleDragOverContractFileDropZone(
             dragEvent,
             isOriginalContractDropZone,
           )
         }
-        onDragLeave={(dragEvent) =>
+        onDragLeave={(dragEvent: DragEvent<HTMLDivElement>) =>
           handleDragLeaveContractFileDropZone(
             dragEvent,
             isOriginalContractDropZone,
           )
         }
-        onDrop={(dragEvent) =>
+        onDrop={(dragEvent: DragEvent<HTMLDivElement>) =>
           handleDropContractFile(dragEvent, isOriginalContractDropZone)
         }
         sx={getDropZoneStyles()}

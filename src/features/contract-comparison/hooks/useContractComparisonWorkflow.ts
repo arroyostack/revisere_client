@@ -2,7 +2,14 @@ import { useCallback } from "react";
 import { contractComparisonApiClient } from "../api/contractComparisonApiClient";
 import { useContractComparisonStateStore } from "../state/contractComparisonState.store";
 
-export function useContractComparisonWorkflow() {
+interface ContractComparisonWorkflowReturn {
+  submitContractsForComparison: (originalContractFile: File, revisedContractFile: File) => Promise<void>;
+  isContractComparisonInProgress: boolean;
+  contractComparisonErrorMessage: string | null;
+  contractComparisonResult: import("../types/contractComparison.types").ContractComparisonResult | null;
+}
+
+export function useContractComparisonWorkflow(): ContractComparisonWorkflowReturn {
   const contractComparisonResult = useContractComparisonStateStore(
     (state) => state.contractComparisonResult,
   );

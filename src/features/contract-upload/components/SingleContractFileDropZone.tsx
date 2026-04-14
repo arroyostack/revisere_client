@@ -78,28 +78,22 @@ export function SingleContractFileDropZone({
     }
   };
 
-  const getDropZoneStyles = () => {
-    const composedDropZoneStyles = [singleContractFileDropZoneStyles.dropZone];
+  const getDropZoneStyles = (): Record<string, unknown> => {
+    const baseStyles = { ...singleContractFileDropZoneStyles.dropZone };
 
     if (isDropZoneHighlighted) {
-      composedDropZoneStyles.push(
-        singleContractFileDropZoneStyles.dropZoneDragOver,
-      );
+      Object.assign(baseStyles, singleContractFileDropZoneStyles.dropZoneDragOver);
     }
 
     if (selectedContractFile) {
-      composedDropZoneStyles.push(
-        singleContractFileDropZoneStyles.dropZoneSelected,
-      );
+      Object.assign(baseStyles, singleContractFileDropZoneStyles.dropZoneSelected);
     }
 
     if (disabled) {
-      composedDropZoneStyles.push(
-        singleContractFileDropZoneStyles.dropZoneDisabled,
-      );
+      Object.assign(baseStyles, singleContractFileDropZoneStyles.dropZoneDisabled);
     }
 
-    return composedDropZoneStyles;
+    return baseStyles;
   };
 
   return (
