@@ -129,7 +129,7 @@ describe('ContractAnalysisApiClient', () => {
         errorCode: ApplicationErrorCode.FILE_TOO_LARGE_ERROR,
         isRetryable: true,
       });
-    });
+    }, 10000);
 
     it('throws ApplicationError for 500 status', async () => {
       mockFetch.mockResolvedValue({
@@ -144,7 +144,7 @@ describe('ContractAnalysisApiClient', () => {
         errorCode: ApplicationErrorCode.SERVER_ERROR,
         isRetryable: true,
       });
-    });
+    }, 10000);
 
     it('throws ApplicationError for network error', async () => {
       mockFetch.mockRejectedValue(new Error('Failed to fetch'));
@@ -155,7 +155,7 @@ describe('ContractAnalysisApiClient', () => {
         errorCode: ApplicationErrorCode.NETWORK_ERROR,
         isRetryable: true,
       });
-    });
+    }, 10000);
 
     it('throws ApplicationError for timeout', async () => {
       mockFetch.mockRejectedValue(new Error('Request timeout'));
@@ -166,7 +166,7 @@ describe('ContractAnalysisApiClient', () => {
         errorCode: ApplicationErrorCode.TIMEOUT_ERROR,
         isRetryable: true,
       });
-    });
+    }, 10000);
 
     it('throws ApplicationError for unknown error', async () => {
       mockFetch.mockRejectedValue(new Error('Unknown error'));
@@ -177,6 +177,6 @@ describe('ContractAnalysisApiClient', () => {
         errorCode: ApplicationErrorCode.UNKNOWN_ERROR,
         isRetryable: true,
       });
-    });
+    }, 10000);
   });
 });
