@@ -1,24 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import { RouterProvider, createRouter } from '@tanstack/react-router';
-import { theme } from './theme/theme';
-import { routeTree } from './router';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { applicationTheme } from "./app/providers/theme/applicationTheme";
+import { applicationRouteTree } from "./app/providers/router/applicationRouter";
+import "./index.css";
 
-const router = createRouter({ routeTree });
+const applicationRouter = createRouter({ routeTree: applicationRouteTree });
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface Register {
-    router: typeof router;
+    router: typeof applicationRouter;
   }
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={applicationTheme}>
       <CssBaseline />
-      <RouterProvider router={router} />
+      <RouterProvider router={applicationRouter} />
     </ThemeProvider>
   </React.StrictMode>,
 );
