@@ -9,27 +9,31 @@ export function NavigationHeader(): JSX.Element {
   return (
     <AppBar position="static" elevation={0} sx={navigationHeaderStyles.header}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
-        <Link to="/" sx={navigationHeaderStyles.logo}>
-          <Typography variant="h6">ContractLens</Typography>
+        <Link to="/">
+          <Box sx={navigationHeaderStyles.logo}>
+            <Typography variant="h6">ContractLens</Typography>
+          </Box>
         </Link>
         <Box sx={navigationHeaderStyles.nav}>
-          <Link
-            to="/"
-            sx={{
-              ...navigationHeaderStyles.navLink,
-              ...( !isComparisonPage ? navigationHeaderStyles.navLinkActive : {}),
-            }}
-          >
-            <Typography variant="body2">Analyze</Typography>
+          <Link to="/">
+            <Box
+              sx={{
+                ...navigationHeaderStyles.navLink,
+                ...( !isComparisonPage ? navigationHeaderStyles.navLinkActive : {}),
+              }}
+            >
+              <Typography variant="body2">Analyze</Typography>
+            </Box>
           </Link>
-          <Link
-            to="/comparison"
-            sx={{
-              ...navigationHeaderStyles.navLink,
-              ...(isComparisonPage ? navigationHeaderStyles.navLinkActive : {}),
-            }}
-          >
-            <Typography variant="body2">Compare</Typography>
+          <Link to="/comparison">
+            <Box
+              sx={{
+                ...navigationHeaderStyles.navLink,
+                ...(isComparisonPage ? navigationHeaderStyles.navLinkActive : {}),
+              }}
+            >
+              <Typography variant="body2">Compare</Typography>
+            </Box>
           </Link>
         </Box>
       </Toolbar>

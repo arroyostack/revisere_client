@@ -1,12 +1,8 @@
 import { useCallback } from 'react';
-import { useProviderConfigurationStore } from '../store/provider-configuration.store';
 import { useContractAnalysisStore } from '../store/contract-analysis.store';
 import { contractAnalysisApiService } from '../services/contract-analysis-api.service';
 
 export function useContractAnalysis() {
-  const savedConfiguration = useProviderConfigurationStore(
-    (state) => state.savedConfiguration,
-  );
   const analysisResult = useContractAnalysisStore((state) => state.analysisResult);
   const isAnalysisLoading = useContractAnalysisStore((state) => state.isAnalysisLoading);
   const analysisError = useContractAnalysisStore((state) => state.analysisError);
@@ -15,25 +11,14 @@ export function useContractAnalysis() {
     (state) => state.setIsAnalysisLoading,
   );
   const setAnalysisError = useContractAnalysisStore((state) => state.setAnalysisError);
-  const clearAnalysisResult = useContractAnalysisStore(
-    (state) => state.clearAnalysisResult,
-  );
 
   const analyzeContract = useCallback(
     async (contractFile: File): Promise<void> => {
-      if (!savedConfiguration) {
-        setAnalysisError('Please configure your AI provider first.');
-        return;
-      }
-
       setIsAnalysisLoading(true);
       setAnalysisError(null);
 
       try {
-        const result = await contractAnalysisApiService.analyzeContract(
-          contractFile,
-          savedConfiguration,
-        );
+        const result = await contractAnalysisApiService.analyzeContract(contractFile);
         setAnalysisResult(result);
       } catch (error) {
         const errorMessage =
@@ -44,7 +29,6 @@ export function useContractAnalysis() {
       }
     },
     [
-      savedConfiguration,
       setIsAnalysisLoading,
       setAnalysisError,
       setAnalysisResult,
@@ -56,6 +40,5 @@ export function useContractAnalysis() {
     isLoading: isAnalysisLoading,
     error: analysisError,
     result: analysisResult,
-    clearAnalysisResult,
   };
 }

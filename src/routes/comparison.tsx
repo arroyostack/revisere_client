@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
-import { useProviderConfigurationStore } from '../store/provider-configuration.store';
-import { ProviderConfigurationForm } from '../components/provider-configuration/ProviderConfigurationForm';
 import { DualContractDropZone } from '../components/contract-upload/DualContractDropZone';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
@@ -10,7 +8,6 @@ import { useContractComparison } from '../hooks/useContractComparison';
 import { ComparisonResultPanel } from '../components/contract-comparison/ComparisonResultPanel';
 
 export function Comparison(): JSX.Element {
-  const savedConfiguration = useProviderConfigurationStore((state) => state.savedConfiguration);
   const [firstFile, setFirstFile] = useState<File | null>(null);
   const [secondFile, setSecondFile] = useState<File | null>(null);
   const { compareContracts, isLoading, error, result } = useContractComparison();
@@ -33,36 +30,32 @@ export function Comparison(): JSX.Element {
           </Typography>
         </Box>
 
-        <ProviderConfigurationForm />
+        <SectionCard title="Upload Contracts">
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <DualContractDropZone
+              onFirstFileSelect={setFirstFile}
+              onSecondFileSelect={setSecondFile}
+              firstFile={firstFile}
+              secondFile={secondFile}
+              disabled={isLoading}
+            />
 
-        {savedConfiguration && (
-          <SectionCard title="Upload Contracts">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <DualContractDropZone
-                onFirstFileSelect={setFirstFile}
-                onSecondFileSelect={setSecondFile}
-                firstFile={firstFile}
-                secondFile={secondFile}
-                disabled={isLoading}
-              />
-
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleCompare}
-                disabled={!firstFile || !secondFile || isLoading}
-                sx={{
-                  backgroundColor: 'primary.main',
-                  color: 'primary.contrastText',
-                  '&:hover': { backgroundColor: 'primary.dark' },
-                  '&:disabled': { backgroundColor: 'rgba(255,255,255,0.1)' },
-                }}
-              >
-                {isLoading ? 'Comparing...' : 'Compare Contracts'}
-              </Button>
-            </Box>
-          </SectionCard>
-        )}
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleCompare}
+              disabled={!firstFile || !secondFile || isLoading}
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'primary.contrastText',
+                '&:hover': { backgroundColor: 'primary.dark' },
+                '&:disabled': { backgroundColor: 'rgba(255,255,255,0.1)' },
+              }}
+            >
+              {isLoading ? 'Comparing...' : 'Compare Contracts'}
+            </Button>
+          </Box>
+        </SectionCard>
 
         {isLoading && (
           <LoadingSpinner message="Comparing contracts..." />

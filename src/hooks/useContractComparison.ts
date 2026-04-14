@@ -1,12 +1,8 @@
 import { useCallback } from 'react';
-import { useProviderConfigurationStore } from '../store/provider-configuration.store';
 import { useContractComparisonStore } from '../store/contract-comparison.store';
 import { contractAnalysisApiService } from '../services/contract-analysis-api.service';
 
 export function useContractComparison() {
-  const savedConfiguration = useProviderConfigurationStore(
-    (state) => state.savedConfiguration,
-  );
   const comparisonResult = useContractComparisonStore(
     (state) => state.comparisonResult,
   );
@@ -25,17 +21,9 @@ export function useContractComparison() {
   const setComparisonError = useContractComparisonStore(
     (state) => state.setComparisonError,
   );
-  const clearComparisonResult = useContractComparisonStore(
-    (state) => state.clearComparisonResult,
-  );
 
   const compareContracts = useCallback(
     async (firstFile: File, secondFile: File): Promise<void> => {
-      if (!savedConfiguration) {
-        setComparisonError('Please configure your AI provider first.');
-        return;
-      }
-
       setIsComparisonLoading(true);
       setComparisonError(null);
 
@@ -43,7 +31,6 @@ export function useContractComparison() {
         const result = await contractAnalysisApiService.compareContracts(
           firstFile,
           secondFile,
-          savedConfiguration,
         );
         setComparisonResult(result);
       } catch (error) {
@@ -55,7 +42,6 @@ export function useContractComparison() {
       }
     },
     [
-      savedConfiguration,
       setIsComparisonLoading,
       setComparisonError,
       setComparisonResult,
@@ -67,6 +53,5 @@ export function useContractComparison() {
     isLoading: isComparisonLoading,
     error: comparisonError,
     result: comparisonResult,
-    clearComparisonResult,
   };
 }

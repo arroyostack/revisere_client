@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
-import { useProviderConfigurationStore } from '../store/provider-configuration.store';
 import { useContractAnalysisStore } from '../store/contract-analysis.store';
-import { ProviderConfigurationForm } from '../components/provider-configuration/ProviderConfigurationForm';
 import { SingleContractDropZone } from '../components/contract-upload/SingleContractDropZone';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
@@ -11,9 +9,8 @@ import { useContractAnalysis } from '../hooks/useContractAnalysis';
 import { ContractAnalysisResultPanel } from '../components/contract-analysis/ContractAnalysisResultPanel';
 
 export function Index(): JSX.Element {
-  const savedConfiguration = useProviderConfigurationStore((state) => state.savedConfiguration);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { analyzeContract, isLoading, error, result, clearAnalysisResult } = useContractAnalysis();
+  const { analyzeContract, isLoading, error, result } = useContractAnalysis();
 
   const handleAnalyze = (): void => {
     if (selectedFile) {
@@ -33,34 +30,30 @@ export function Index(): JSX.Element {
           </Typography>
         </Box>
 
-        <ProviderConfigurationForm />
+        <SectionCard title="Upload Contract">
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <SingleContractDropZone
+              onFileSelect={setSelectedFile}
+              selectedFile={selectedFile}
+              disabled={isLoading}
+            />
 
-        {savedConfiguration && (
-          <SectionCard title="Upload Contract">
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <SingleContractDropZone
-                onFileSelect={setSelectedFile}
-                selectedFile={selectedFile}
-                disabled={isLoading}
-              />
-
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleAnalyze}
-                disabled={!selectedFile || isLoading}
-                sx={{
-                  backgroundColor: 'primary.main',
-                  color: 'primary.contrastText',
-                  '&:hover': { backgroundColor: 'primary.dark' },
-                  '&:disabled': { backgroundColor: 'rgba(255,255,255,0.1)' },
-                }}
-              >
-                {isLoading ? 'Analyzing...' : 'Analyze Contract'}
-              </Button>
-            </Box>
-          </SectionCard>
-        )}
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleAnalyze}
+              disabled={!selectedFile || isLoading}
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'primary.contrastText',
+                '&:hover': { backgroundColor: 'primary.dark' },
+                '&:disabled': { backgroundColor: 'rgba(255,255,255,0.1)' },
+              }}
+            >
+              {isLoading ? 'Analyzing...' : 'Analyze Contract'}
+            </Button>
+          </Box>
+        </SectionCard>
 
         {isLoading && (
           <LoadingSpinner message="Analyzing contract..." />

@@ -1,16 +1,13 @@
 import { ContractFullAnalysisResponse, ContractComparisonResult } from '../types/contract-analysis-api.types';
-import { ProviderConfiguration } from '../types/provider-configuration.types';
 
-const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL ?? 'http://localhost:3000';
+const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL ?? 'http://localhost:3500';
 
 class ContractAnalysisApiService {
   async analyzeContract(
     contractFile: File,
-    providerConfiguration: ProviderConfiguration,
   ): Promise<ContractFullAnalysisResponse> {
     const formData = new FormData();
     formData.append('contractFile', contractFile);
-    formData.append('providerConfiguration', JSON.stringify(providerConfiguration));
 
     const response = await fetch(`${BACKEND_BASE_URL}/contract-analysis/analyze`, {
       method: 'POST',
@@ -28,12 +25,10 @@ class ContractAnalysisApiService {
   async compareContracts(
     firstContractFile: File,
     secondContractFile: File,
-    providerConfiguration: ProviderConfiguration,
   ): Promise<ContractComparisonResult> {
     const formData = new FormData();
     formData.append('firstContractFile', firstContractFile);
     formData.append('secondContractFile', secondContractFile);
-    formData.append('providerConfiguration', JSON.stringify(providerConfiguration));
 
     const response = await fetch(`${BACKEND_BASE_URL}/contract-comparison/compare`, {
       method: 'POST',

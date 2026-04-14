@@ -2,7 +2,6 @@ import { useState, FormEvent } from 'react';
 import { TextField, Button, MenuItem, Box, Typography } from '@mui/material';
 import { useProviderConfigurationStore } from '../../store/provider-configuration.store';
 import {
-  ProviderConfigurationFormSchema,
   PROVIDER_DISPLAY_NAMES,
   DEFAULT_MODEL_PLACEHOLDERS,
   SupportedProvider,
@@ -23,29 +22,17 @@ export function ProviderConfigurationForm(): JSX.Element {
   const [providerName, setProviderName] = useState<SupportedProvider>(
     savedConfiguration?.providerName || 'openai',
   );
-  const [apiKey, setApiKey] = useState(savedConfiguration?.apiKey || '');
   const [modelIdentifier, setModelIdentifier] = useState(
     savedConfiguration?.modelIdentifier || '',
   );
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: FormEvent): void => {
     e.preventDefault();
-    setError(null);
 
-    const result = ProviderConfigurationFormSchema.safeParse({
+    saveProviderConfiguration({
       providerName,
-      apiKey,
       modelIdentifier: modelIdentifier || undefined,
     });
-
-    if (!result.success) {
-      const firstError = result.error.errors[0]?.message || 'Invalid configuration';
-      setError(firstError);
-      return;
-    }
-
-    saveProviderConfiguration(result.data);
   };
 
   return (
@@ -86,23 +73,6 @@ export function ProviderConfigurationForm(): JSX.Element {
             variant="body2"
             sx={providerConfigurationFormStyles.label}
           >
-            API Key
-          </Typography>
-          <TextField
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Enter your API key"
-            sx={providerConfigurationFormStyles.input}
-          />
-        </Box>
-
-        <Box sx={providerConfigurationFormStyles.field}>
-          <Typography
-            component="label"
-            variant="body2"
-            sx={providerConfigurationFormStyles.label}
-          >
             Model (Optional)
           </Typography>
           <TextField
@@ -113,12 +83,6 @@ export function ProviderConfigurationForm(): JSX.Element {
             sx={providerConfigurationFormStyles.input}
           />
         </Box>
-
-        {error && (
-          <Typography variant="body2" sx={providerConfigurationFormStyles.error}>
-            {error}
-          </Typography>
-        )}
 
         <Button
           type="submit"
