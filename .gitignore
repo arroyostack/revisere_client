@@ -16,6 +16,8 @@ build/
 .env.test.local
 .env.production.local
 
+
+.zenflow/
 # IDE
 .idea/
 .vscode/
