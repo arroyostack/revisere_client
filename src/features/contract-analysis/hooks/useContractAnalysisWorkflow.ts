@@ -1,12 +1,14 @@
-import { useCallback } from "react";
-import { contractAnalysisApiClient } from "../api/contractAnalysisApiClient";
-import { useContractAnalysisStateStore } from "../state/contractAnalysisState.store";
+import { useCallback } from 'react';
+import { contractAnalysisApiClient } from '../api/contractAnalysisApiClient';
+import { useContractAnalysisStateStore } from '../state/contractAnalysisState.store';
+import { ApplicationError } from '../../../shared/errors/AppError';
+import { ErrorService } from '../../../shared/errors/errorService';
 
 interface ContractAnalysisWorkflowReturn {
   submitContractForAnalysis: (contractFileToAnalyze: File) => Promise<void>;
   isContractAnalysisInProgress: boolean;
   contractAnalysisErrorMessage: string | null;
-  contractAnalysisResponse: import("../types/contractAnalysis.types").ContractAnalysisResponse | null;
+  contractAnalysisResponse: import('../types/contractAnalysis.types').ContractAnalysisResponse | null;
 }
 
 export function useContractAnalysisWorkflow(): ContractAnalysisWorkflowReturn {
@@ -35,17 +37,25 @@ export function useContractAnalysisWorkflow(): ContractAnalysisWorkflowReturn {
       setContractAnalysisErrorMessage(null);
 
       try {
-        const contractAnalysisResponse =
+        const contractAnalysisResponseResult =
           await contractAnalysisApiClient.analyzeContractFile(
             contractFileToAnalyze,
           );
-        setContractAnalysisResponse(contractAnalysisResponse);
+        setContractAnalysisResponse(contractAnalysisResponseResult);
       } catch (error) {
-        const contractAnalysisErrorMessage =
-          error instanceof Error
-            ? error.message
-            : "An unexpected error occurred";
-        setContractAnalysisErrorMessage(contractAnalysisErrorMessage);
+        let applicationError: ApplicationError;
+
+        if (error instanceof ApplicationError) {
+          applicationError = error;
+        } else {
+          applicationError = ErrorService.createFromFetchError(
+            error,
+            'Failed to analyze contract',
+          );
+        }
+
+        ErrorService.logErrorToConsole(applicationError);
+        setContractAnalysisErrorMessage(applicationError.userFacingMessage);
       } finally {
         setContractAnalysisInProgress(false);
       }
