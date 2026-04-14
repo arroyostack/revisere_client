@@ -46,6 +46,23 @@ export function ContractComparisonPage(): JSX.Element {
           </Typography>
         </Box>
 
+        <Box
+          sx={{
+            mb: 3,
+            p: 2,
+            bgcolor: "#f5f5f5",
+            borderRadius: 1,
+            border: "1px solid",
+            borderColor: "#ddd",
+          }}
+        >
+          <Typography variant="body2" sx={{ color: "#333", fontWeight: 500 }}>
+            ⚠️ For demonstration purposes only. This tool is not a substitute for
+            professional legal advice. Do not rely on its analysis for actual legal
+            decisions. Consult a qualified attorney for legal matters.
+          </Typography>
+        </Box>
+
         <SectionCard sectionTitle="Upload Contracts">
           <Box sx={contractComparisonPageStyles.uploadSectionContent}>
             <DualContractFileDropZone
