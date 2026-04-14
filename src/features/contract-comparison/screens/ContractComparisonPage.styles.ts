@@ -14,7 +14,6 @@ export const contractComparisonPageStyles: {
   },
   heroSection: {},
   heroTitle: {
-    fontFamily: 'Georgia, serif',
   },
   uploadSectionContent: {
     display: 'flex',

@@ -14,7 +14,6 @@ export const contractAnalysisPageStyles: {
   },
   heroSection: {},
   heroTitle: {
-    fontFamily: 'Georgia, serif',
   },
   uploadSectionContent: {
     display: 'flex',

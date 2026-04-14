@@ -76,3 +76,5 @@ export function ChangeItemCard({ change }: ChangeItemCardProps): JSX.Element {
     </Box>
   );
 }
+
+export { ChangeItemCard as ContractChangeSummaryCard };

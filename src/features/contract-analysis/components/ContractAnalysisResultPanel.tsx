@@ -3,8 +3,8 @@ import { Box, Tabs, Tab } from "@mui/material";
 import { ContractAnalysisResponse } from "../types/contractAnalysis.types";
 import { contractAnalysisResultPanelStyles } from "./ContractAnalysisResultPanel.styles";
 import { ContractSummarySection } from "./ContractSummarySection";
-import { ExtractedContractDataSection } from "./ExtractedContractDataSection";
-import { ContractRiskAnalysisSection } from "./ContractRiskAnalysisSection";
+import { ExtractedDataSection } from "./ExtractedContractDataSection";
+import { RiskAnalysisSection } from "./ContractRiskAnalysisSection";
 
 interface ContractAnalysisResultPanelProps {
   contractAnalysisResponse: ContractAnalysisResponse;
@@ -38,17 +38,17 @@ export function ContractAnalysisResultPanel({
 
       {selectedResultTabIndex === 0 && (
         <ContractSummarySection
-          contractSummary={contractAnalysisResponse.summary}
+          summary={contractAnalysisResponse.summary}
         />
       )}
       {selectedResultTabIndex === 1 && (
-        <ExtractedContractDataSection
-          extractedContractData={contractAnalysisResponse.extractedData}
+        <ExtractedDataSection
+          extractedData={contractAnalysisResponse.extractedData}
         />
       )}
       {selectedResultTabIndex === 2 && (
-        <ContractRiskAnalysisSection
-          contractRiskAnalysis={contractAnalysisResponse.riskAnalysis}
+        <RiskAnalysisSection
+          riskAnalysis={contractAnalysisResponse.riskAnalysis}
         />
       )}
     </Box>

@@ -1,4 +1,4 @@
-import { Box, Typography, Chip } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import BalanceIcon from '@mui/icons-material/Balance';
@@ -21,13 +21,13 @@ const versionConfig: Record<FavorableVersion, { label: string; icon: React.React
     icon: <ArrowForwardIcon />,
     color: '#f97316',
   },
-  roughly_equal: {
-    label: 'Roughly Equal',
+  equally_favorable: {
+    label: 'Equally Favorable',
     icon: <BalanceIcon />,
-    color: '#64748b',
+    color: '#22c55e',
   },
-  depends_on_your_role: {
-    label: 'Depends on Your Role',
+  unclear: {
+    label: 'Unclear',
     icon: <HelpOutlineIcon />,
     color: '#64748b',
   },
@@ -39,19 +39,19 @@ export function FavorabilityIndicator({ favorableVersion, explanation }: Favorab
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 2,
-        p: 3,
-        backgroundColor: `${config.color}15`,
-        border: `1px solid ${config.color}30`,
+        p: 2,
+        border: '1px solid',
+        borderColor: 'divider',
         borderRadius: 1,
+        backgroundColor: 'background.paper',
+        textAlign: 'center',
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, color: config.color }}>
-        {config.icon}
-        <Typography variant="h6" fontWeight={600} sx={{ color: config.color }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1, mb: 1 }}>
+        <Box sx={{ color: config.color }}>
+          {config.icon}
+        </Box>
+        <Typography variant="subtitle1" fontWeight={600} color="text.primary">
           {config.label}
         </Typography>
       </Box>
@@ -61,3 +61,6 @@ export function FavorabilityIndicator({ favorableVersion, explanation }: Favorab
     </Box>
   );
 }
+
+export { FavorabilityIndicator as ContractChangeSummaryCard };
+export { FavorabilityIndicator as FavorableContractVersionIndicator };

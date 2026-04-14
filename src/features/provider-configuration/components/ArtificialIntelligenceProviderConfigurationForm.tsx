@@ -6,7 +6,7 @@ import {
   DEFAULT_MODEL_PLACEHOLDERS,
   SupportedProvider,
 } from '../../types/provider-configuration.types';
-import { SectionCard } from '../ui/SectionCard';
+import { SectionCard } from '../../../shared/ui/SectionCard/SectionCard';
 import { providerConfigurationFormStyles } from './ProviderConfigurationForm.styles';
 
 const PROVIDER_OPTIONS: SupportedProvider[] = [
@@ -36,7 +36,7 @@ export function ProviderConfigurationForm(): JSX.Element {
   };
 
   return (
-    <SectionCard title="AI Provider Configuration">
+    <SectionCard sectionTitle="AI Provider Configuration">
       <Box
         component="form"
         onSubmit={handleSubmit}

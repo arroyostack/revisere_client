@@ -13,7 +13,6 @@ export const sectionCardStyles: {
   },
   cardTitle: {
     marginBottom: 2,
-    fontFamily: 'Georgia, Cambria, "Times New Roman", Times, serif',
     fontWeight: 600,
     fontSize: "1.125rem",
     color: "text.primary",
