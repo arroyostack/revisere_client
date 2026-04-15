@@ -26,6 +26,10 @@ export const dualContractFileDropZoneStyles: {
     padding: 3,
     transition: "all 0.2s",
     textAlign: "center",
+    minHeight: 150,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dropZoneDragOver: {
     borderColor: "primary.main",
