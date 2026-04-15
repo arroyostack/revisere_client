@@ -21,6 +21,10 @@ export const singleContractFileDropZoneStyles: {
     padding: 4,
     transition: "all 0.2s",
     textAlign: "center",
+    minHeight: 180,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dropZoneDragOver: {
     borderColor: "primary.main",

@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { Box, Button, Container, Typography } from "@mui/material";
-import { ContractAnalysisResultPanel } from "../components/ContractAnalysisResultPanel";
-import { useContractAnalysisWorkflow } from "../hooks/useContractAnalysisWorkflow";
-import { SingleContractFileDropZone } from "../../contract-upload/components/SingleContractFileDropZone";
-import { ErrorDisplay } from "../../../shared/ui/ErrorDisplay/ErrorDisplay";
-import { LoadingIndicator } from "../../../shared/ui/LoadingIndicator/LoadingIndicator";
-import { SectionCard } from "../../../shared/ui/SectionCard/SectionCard";
-import { contractAnalysisPageStyles } from "./ContractAnalysisPage.styles";
+import { useState, useMemo } from 'react';
+import { Box, Button, Container, Typography } from '@mui/material';
+import { ContractAnalysisResultPanel } from '../components/ContractAnalysisResultPanel';
+import { useContractAnalysisWorkflow } from '../hooks/useContractAnalysisWorkflow';
+import { SingleContractFileDropZone } from '../../contract-upload/components/SingleContractFileDropZone';
+import { ErrorDisplay } from '../../../shared/ui/ErrorDisplay/ErrorDisplay';
+import { LoadingIndicator } from '../../../shared/ui/LoadingIndicator/LoadingIndicator';
+import { createContractAnalysisProgressMessageManager } from '../../../shared/ui/LoadingIndicator/progressMessages';
+import { SectionCard } from '../../../shared/ui/SectionCard/SectionCard';
+import { contractAnalysisPageStyles } from './ContractAnalysisPage.styles';
 
 export function ContractAnalysisPage(): JSX.Element {
   const [selectedContractFile, setSelectedContractFile] = useState<File | null>(
@@ -18,6 +19,11 @@ export function ContractAnalysisPage(): JSX.Element {
     contractAnalysisErrorMessage,
     contractAnalysisResponse,
   } = useContractAnalysisWorkflow();
+
+  const contractAnalysisProgressMessageRotator = useMemo(
+    () => createContractAnalysisProgressMessageManager(),
+    [],
+  );
 
   const handleContractAnalysisRequest = (): void => {
     if (selectedContractFile) {
@@ -62,11 +68,41 @@ export function ContractAnalysisPage(): JSX.Element {
 
         <SectionCard sectionTitle="Upload Contract">
           <Box sx={contractAnalysisPageStyles.uploadSectionContent}>
-            <SingleContractFileDropZone
-              onContractFileSelected={setSelectedContractFile}
-              selectedContractFile={selectedContractFile}
-              disabled={isContractAnalysisInProgress}
-            />
+            <Box sx={{ position: 'relative' }}>
+              <SingleContractFileDropZone
+                onContractFileSelected={setSelectedContractFile}
+                selectedContractFile={selectedContractFile}
+                disabled={isContractAnalysisInProgress}
+              />
+              {isContractAnalysisInProgress && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: 1,
+                    zIndex: 10,
+                    animation: 'smoothOverlayIn 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '@keyframes smoothOverlayIn': {
+                      '0%': { opacity: 0 },
+                      '100%': { opacity: 1 },
+                    },
+                  }}
+                >
+                  <LoadingIndicator progressMessageRotator={contractAnalysisProgressMessageRotator} />
+                  <Typography variant="caption" sx={{ mt: 2, color: 'text.secondary' }}>
+                    This may take up to 2 minutes
+                  </Typography>
+                </Box>
+              )}
+            </Box>
 
             <Button
               variant="contained"
@@ -81,10 +117,6 @@ export function ContractAnalysisPage(): JSX.Element {
             </Button>
           </Box>
         </SectionCard>
-
-        {isContractAnalysisInProgress && (
-          <LoadingIndicator loadingMessage="Analyzing contract..." />
-        )}
 
         {contractAnalysisErrorMessage && (
           <ErrorDisplay
